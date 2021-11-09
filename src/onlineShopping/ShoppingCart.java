@@ -8,7 +8,6 @@ public class ShoppingCart {
     onlineShopping.User user;
     ArrayList<LineItem> lineItems;
     Account account;
-    int shahar;
 
     public ShoppingCart(User user, Account account) {
         assert(user.shoppingCartIsNull());
