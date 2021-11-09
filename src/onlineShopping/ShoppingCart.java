@@ -9,7 +9,7 @@ public class ShoppingCart {
     ArrayList<LineItem> lineItems;
     Account account;
 
-    public ShoppingCart(User user) {
+    public ShoppingCart(User user, Account account) {
         assert(user.shoppingCartIsNull());
         user.setShop_cart(this);
         this.created = new Date(System.currentTimeMillis());

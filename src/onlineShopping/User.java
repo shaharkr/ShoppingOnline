@@ -7,12 +7,12 @@ public class User {
     onlineShopping.Customer customer;
     ShoppingCart shop_cart;
 
-    public User(onlineShopping.UserState state, String login_id, String password, Address address, String phone, String email) {
-        this.state = state;
+    public User(String login_id, String password, Address address, String phone, String email) {
+        this.state = UserState.New;
         this.login_id = login_id;
         this.password = password;
         this.customer = new onlineShopping.Customer(login_id, address, phone, email, this); //verify that this customer dosent belong to another user
-        this.shop_cart = new ShoppingCart(this);
+        this.shop_cart = this.customer.getAccount().getShopCart();
     }
 
     public boolean shoppingCartIsNull(){
