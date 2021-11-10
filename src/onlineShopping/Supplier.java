@@ -28,7 +28,7 @@ public class Supplier {
     public void setName(String name) {this.name = name;}
 
 
-    public void deleteProduct(String name) {
+    public void removeProduct(String name) {
         for (Product pr: this.products) {
             if(pr.getName() == name){
                 this.products.remove(pr);

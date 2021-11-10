@@ -60,8 +60,15 @@ public class LineItem {
         this.product = product;
     }
 
-    public void deleteLineItem() {
-        this.order.deleteLineItem(this);
-        this.shop_cart.deleteLineItem(this);
+    public void deleteLineItemFromProduct() {
+        this.order.removeLineItem(this);
+        this.shop_cart.removeLineItem(this);
+    }
+
+    public void deleteLineItemFromOrder() {
+        this.product.removeLineItem(this);
+        this.shop_cart.removeLineItem(this);
+        this.product = null;
+        this.shop_cart = null;
     }
 }

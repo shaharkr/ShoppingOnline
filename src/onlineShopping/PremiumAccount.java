@@ -1,7 +1,5 @@
 package onlineShopping;
 
-import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 
 public class PremiumAccount extends Account {
@@ -23,11 +21,20 @@ public class PremiumAccount extends Account {
         this.products.put(p,new float[]{price, q});
     }
 
-    public void deleteProduct(String name) {
+    public void removeProduct(String name) {
         for (Product pr: this.products.keySet()) {
             if(pr.getName() == name){
                 this.products.remove(pr);
             }
         }
+    }
+
+    public void deleteAccount() {
+        for (Product p: this.products.keySet()
+             ) {
+            p.removePremiumAccount();
+        }
+        super.deleteAccount();
+        this.products = null;
     }
 }

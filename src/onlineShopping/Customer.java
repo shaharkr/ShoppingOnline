@@ -71,4 +71,9 @@ public class Customer {
     public void setAccount(Account account) {
         this.account = account;
     }
+
+    public void deleteCustomer() {
+        this.account.deleteAccount();
+        this.account = null;
+    }
 }

@@ -58,4 +58,9 @@ public class User {
     public void setShop_cart(ShoppingCart shop_cart) {
         this.shop_cart = shop_cart;
     }
+
+    public void deleteUser() {
+        this.customer.deleteCustomer();
+        this.customer = null;
+    }
 }

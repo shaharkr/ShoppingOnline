@@ -1,7 +1,6 @@
 package onlineShopping;
 
 import java.util.ArrayList;
-import java.util.Objects;
 
 public class Product {
     Supplier supplier;
@@ -33,17 +32,33 @@ public class Product {
     }
 
 
-    public PremiumAccount getPremAcc(PremiumAccount premAcc) {
+    public PremiumAccount getPremAcc() {
         return this.premAcc;
     }
 
 
     public void deleteProduct() {
-        this.supplier.deleteProduct(this.name);
-        if(this.premAcc != null){this.premAcc.deleteProduct(this.name);}
+        this.supplier.removeProduct(this.name);
+        if(this.premAcc != null){this.premAcc.removeProduct(this.name);}
         for (LineItem li: this.lineItems
              ) {
-            li.deleteLineItem();
+            li.deleteLineItemFromProduct();
         }
+        this.lineItems = null;
+        this.supplier = null;
+        this.premAcc = null;
+    }
+
+    public void removeLineItem(LineItem lineItem) {
+        for (LineItem li: this.lineItems
+        ) {
+            if(li == lineItem){
+                this.lineItems.remove(li);
+            }
+        }
+    }
+
+    public void removePremiumAccount() {
+        this.premAcc = null;
     }
 }

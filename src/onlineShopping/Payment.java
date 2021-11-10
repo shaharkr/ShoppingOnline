@@ -9,4 +9,10 @@ public abstract class Payment {
     String details;
     Order order;
     Account account;
+    //todo: init of the class
+
+
+    public void deletePamentFromAccount(){
+        this.account = null;
+    }
 }

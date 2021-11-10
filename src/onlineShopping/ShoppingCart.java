@@ -17,12 +17,17 @@ public class ShoppingCart {
 
     }
 
-    public void deleteLineItem(LineItem lineItem) {
+    public void removeLineItem(LineItem lineItem) {
         for (LineItem li: this.lineItems
         ) {
             if(li == lineItem){
                 this.lineItems.remove(li);
             }
         }
+    }
+
+    public void deleteShopCartFromAccount() {
+        this.account = null;
+        this.lineItems = null;
     }
 }

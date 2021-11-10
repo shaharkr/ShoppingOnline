@@ -45,7 +45,12 @@ public class ShoppingSystem {
             }
         }
         if (index != -1){
-            users.remove(index);
+            User prevUser = users.remove(index);
+            if(this.activeUser.getLogin_id() == prevUser.getLogin_id()){
+                this.activeUser = null;
+                this.isUserLoggedIn = false;
+            }
+            prevUser.deleteUser();
             System.out.println("user removed successfully");
         }
         else{
@@ -181,9 +186,19 @@ public class ShoppingSystem {
         for (Product p: this.products
              ) {
             if(p.getName() == pName){
-                ((PremiumAccount) this.activeUser.getCustomer().getAccount()).addNewProduct(p,
-                                                                                            parseFloat(price),
-                                                                                            parseFloat(q)); // todo: check about the price
+                if(p.getPremAcc() == null){
+                    p.setPremAcc(((PremiumAccount) this.activeUser.getCustomer().getAccount()));
+                    ((PremiumAccount) this.activeUser.getCustomer().getAccount()).addNewProduct(p,
+                            parseFloat(price),
+                            parseFloat(q)); // todo: check about the price
+                    System.out.println("PRODUCT WAS ADDED TO PREMIUM ACCOUNT");
+                    break;
+                }
+                else{
+                    System.out.println("Product is already belong to other premium account");
+                    return;
+                }
+
             }
         }
     }

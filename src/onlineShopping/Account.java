@@ -13,6 +13,7 @@ public class Account {
     ShoppingCart shopCart;
     int balance;
     ArrayList<Order> orders;
+    ArrayList<Payment> payments = new ArrayList<>();
     static int nextAvailableOrderId = 0;
 
 
@@ -125,5 +126,20 @@ public class Account {
     public Order getLatlestOrder(){
         if(this.orders.size() == 0){return null;}
         return this.orders.get(this.orders.size()-1);
+    }
+
+    public void deleteAccount() {
+        for (Payment p: this.payments
+             ) {
+            p.deletePamentFromAccount();
+        }
+        for (Order o: this.orders
+        ) {
+            o.deleteOrderFromAccount();
+        }
+        this.shopCart.deleteShopCartFromAccount();
+        this.shopCart = null;
+        this.payments = null;
+        this.orders = null;
     }
 }
