@@ -1,5 +1,6 @@
 package onlineShopping;
 
+import java.util.ArrayList;
 import java.util.Date;
 
 public class Account {
@@ -11,6 +12,9 @@ public class Account {
     onlineShopping.Customer customer;
     ShoppingCart shopCart;
     int balance;
+    ArrayList<Order> orders;
+    static int nextAvailableOrderId = 0;
+
 
     public Account(String id, Address billing_address, Customer customer) {
         this.id = id;
@@ -21,6 +25,7 @@ public class Account {
         this.customer = customer;
         this.shopCart = new ShoppingCart(customer.getUser(), this);
         this.balance = 0;
+        this.orders = new ArrayList<Order>();
     }
 
     public String getId() {
@@ -85,5 +90,40 @@ public class Account {
 
     public void setBalance(int balance) {
         this.balance = balance;
+    }
+
+    public ArrayList<Order> getOrders() { return orders; }
+
+    public void setOrders(ArrayList<Order> orders) {this.orders = orders;}
+
+    public void addOrder(Order order){
+        this.orders.add(order);
+        this.nextAvailableOrderId++;
+    }
+
+    public int getNextAvailableOrderId() {
+        return this.nextAvailableOrderId;
+    }
+
+    public void addProductToOrder(String orderId, Product product) {
+        for (Order order: this.orders
+        ) {
+            if(order.getNumber() == orderId){
+                for (LineItem li: order.getLineItems()
+                ) {
+                    if(li.getProductName() == product.getName()){
+                        li.setQuantity(li.getQuantity() + 1);
+                        return;
+                    }
+                }
+                order.addLineItem(new LineItem(this.shopCart,order, product));
+            }
+
+        }
+    }
+
+    public Order getLatlestOrder(){
+        if(this.orders.size() == 0){return null;}
+        return this.orders.get(this.orders.size()-1);
     }
 }

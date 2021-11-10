@@ -1,24 +1,23 @@
 package onlineShopping;
 
 public class User {
-    onlineShopping.UserState state;
+    UserState state;
     String login_id;
     String password;
-    onlineShopping.Customer customer;
+    Customer customer;
     ShoppingCart shop_cart;
 
-    public User(String login_id, String password, Address address, String phone, String email) {
+    public User(String login_id, String password, Address address, String phone, String email, int premium) {
         this.state = UserState.New;
         this.login_id = login_id;
         this.password = password;
-        this.customer = new onlineShopping.Customer(login_id, address, phone, email, this); //verify that this customer dosent belong to another user
+        this.customer = new Customer(login_id, address, phone, email, this, premium); //verify that this customer dosent belong to another user
         this.shop_cart = this.customer.getAccount().getShopCart();
     }
 
     public boolean shoppingCartIsNull(){
         return this.shop_cart == null;
     }
-
 
     public onlineShopping.UserState getState() {
         return state;

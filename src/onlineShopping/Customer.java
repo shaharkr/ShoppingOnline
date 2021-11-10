@@ -3,20 +3,25 @@ package onlineShopping;
 import java.util.Date;
 
 public class Customer {
-    String id;
-    Address address;
-    String phone;
-    String email;
-    User user;
-    Account account;
+    private String id;
+    private Address address;
+    private String phone;
+    private String email;
+    private User user;
+    private Account account;
 
-    public Customer(String id, Address address, String phone, String email, User user) {
+    public Customer(String id, Address address, String phone, String email, User user, int premium) {
         this.id = id;
         this.address = address;
         this.phone = phone;
         this.email = email;
         this.user = user;
-        this.account = new Account(id, address, this);
+        if (premium==1){
+            this.account = new PremiumAccount(id, address, this);
+        }
+        else{
+            this.account = new Account(id, address, this);
+        }
     }
 
     public String getId() {
