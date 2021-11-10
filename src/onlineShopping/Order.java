@@ -101,4 +101,13 @@ public class Order {
     public void addLineItem(LineItem lineItem) {
         this.lineItems.add(lineItem);
     }
+
+    public void deleteLineItem(LineItem lineItem) {
+        for (LineItem li: this.lineItems
+             ) {
+            if(li == lineItem){
+                this.lineItems.remove(li);
+            }
+        }
+    }
 }

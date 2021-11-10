@@ -11,6 +11,7 @@ public class LineItem {
         this.shop_cart = shop_cart;
         this.order = order;
         this.product = product;
+        this.product.addLineItem(this);
         this.quantity = 1;
     }
 
@@ -59,4 +60,8 @@ public class LineItem {
         this.product = product;
     }
 
+    public void deleteLineItem() {
+        this.order.deleteLineItem(this);
+        this.shop_cart.deleteLineItem(this);
+    }
 }

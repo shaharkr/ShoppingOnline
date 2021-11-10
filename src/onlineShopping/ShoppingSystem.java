@@ -3,8 +3,12 @@ package onlineShopping;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+import static java.lang.Float.parseFloat;
+
 public class ShoppingSystem {
     ArrayList<User> users = new ArrayList<>();
+    ArrayList<Supplier> suppliers = new ArrayList<>();
+    ArrayList<Product> products = new ArrayList<>();
     User activeUser = null;
     boolean isUserLoggedIn = false;
     Scanner scanner = new Scanner(System.in);
@@ -160,6 +164,56 @@ public class ShoppingSystem {
         for (String str: details
              ) {
             System.out.println(str);
+        }
+    }
+
+    public void linkProduct(){
+        if(!(this.isUserLoggedIn) || !(this.activeUser.getCustomer().getAccount() instanceof PremiumAccount)){
+            System.out.println("To create an order, login to your user");
+            return;
+        }
+        System.out.println("Please insert product name");
+        String pName = scanner.nextLine();
+        System.out.println("Please insert quantity");
+        String q = scanner.nextLine();
+        System.out.println("Please insert price");
+        String price = scanner.nextLine();
+        for (Product p: this.products
+             ) {
+            if(p.getName() == pName){
+                ((PremiumAccount) this.activeUser.getCustomer().getAccount()).addNewProduct(p,
+                                                                                            parseFloat(price),
+                                                                                            parseFloat(q)); // todo: check about the price
+            }
+        }
+    }
+
+    public void addProduct(){
+        System.out.println("Please insert product name");
+        String pName = scanner.nextLine();
+        System.out.println("Please insert supplier name");
+        String sName = scanner.nextLine();
+        for (Supplier sup: this.suppliers
+             ) {
+            if(sup.getName() == sName){
+                this.products.add(new Product(sup, pName));
+                System.out.println("Product was added");
+                break;
+            }
+        }
+    }
+
+    public void deleteProduct(){
+        System.out.println("Please insert product name");
+        String pName = scanner.nextLine();
+        for (Product p: this.products
+        ) {
+            if(p.getName() == pName){
+                p.deleteProduct();
+                this.products.remove(p);
+                System.out.println("Product was deleted");
+                break;
+            }
         }
     }
 

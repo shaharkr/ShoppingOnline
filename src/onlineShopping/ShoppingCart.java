@@ -16,4 +16,13 @@ public class ShoppingCart {
         this.account = account;
 
     }
+
+    public void deleteLineItem(LineItem lineItem) {
+        for (LineItem li: this.lineItems
+        ) {
+            if(li == lineItem){
+                this.lineItems.remove(li);
+            }
+        }
+    }
 }
