@@ -2,7 +2,7 @@ package onlineShopping;
 
 public class LineItem {
     int quantity;
-    int price;
+    float price;
     ShoppingCart shop_cart;
     Order order;
     Product product;
@@ -24,11 +24,11 @@ public class LineItem {
         this.quantity = quantity;
     }
 
-    public int getPrice() {
+    public float getPrice() {
         return price;
     }
 
-    public void setPrice(int price) {
+    public void setPrice(float price) {
         this.price = price;
     }
 
@@ -73,6 +73,6 @@ public class LineItem {
     }
 
     public void showLineItem() {
-        System.out.println(String.format("LineItem of Order: {0}", this.order.getNumber()));
+        System.out.println(String.format("LineItem price: %s", this.getPrice()));
     }
 }

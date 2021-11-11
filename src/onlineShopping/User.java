@@ -65,20 +65,28 @@ public class User {
     }
 
     public void showUser(){
-        System.out.println(String.format("User login id: {0}", this.login_id));
+        System.out.println(String.format("User login id: %s", this.login_id));
         this.customer.showCustomer();
     }
 
     public void findObject(String id){
-        if(this.login_id != id){
+        if(!this.login_id.equals(id)){
             this.customer.findObject(id);
         }
         else{
-            System.out.println(String.format("User login id: {0}", this.login_id));
-            System.out.println(String.format("User password: {0}", this.password));
-            System.out.println(String.format("User state: {0}", this.state));
-            System.out.println(String.format("User shoppingCart creation date: {0}", this.shop_cart.created));
-            System.out.println(String.format("User customer id: {0}", this.customer.getId()));
+            System.out.println(String.format("User login id: %s", this.login_id));
+            System.out.println(String.format("User password: %s", this.password));
+            System.out.println(String.format("User state: %s", this.state));
+            if(this.shop_cart!=null){System.out.println(String.format("User shoppingCart creation date: %s", this.shop_cart.created));}
+            System.out.println(String.format("User customer id: %s", this.customer.getId()));
+            System.out.println(String.format("User Account id: %s", this.customer.getAccount().getId()));
+            if((this.customer.getAccount() instanceof PremiumAccount) && (((PremiumAccount)this.customer.getAccount()).products.size() > 0)){
+                System.out.println("All products of the premium user:");
+                for (Product p: ((PremiumAccount)this.customer.getAccount()).products.keySet()
+                ) {
+                    System.out.println(String.format("Product id: %s", p.getId()));
+                }
+            }
         }
     }
 }

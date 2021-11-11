@@ -30,24 +30,24 @@ public class Supplier {
 
     public void removeProduct(String name) {
         for (Product pr: this.products) {
-            if(pr.getName() == name){
+            if(pr.getName().equals(name)){
                 this.products.remove(pr);
             }
         }
     }
 
     public void showSupplier(){
-        System.out.println(String.format("Suppplier id: {0}", this.getId()));
+        System.out.println(String.format("Suppplier id: %s", this.getId()));
     }
 
     public void findObject(String id) {
-        if (this.id == id) {
-            System.out.println(String.format("Supplier id: {0}", this.id));
-            System.out.println(String.format("Supplier name: {0}", this.name));
-            System.out.println("All products that are connected to this supplier:");
+        if (this.id.equals(id)) {
+            System.out.println(String.format("Supplier id: %s", this.id));
+            System.out.println(String.format("Supplier name: %s", this.name));
+            if(this.products.size()>0){System.out.println("All products that are connected to this supplier:");}
             for (Product p : this.products
                  ) {
-                System.out.println(String.format("Product id: {0}", p.getId()));
+                System.out.println(String.format("Product id: %s", p.getId()));
             }
         }
     }

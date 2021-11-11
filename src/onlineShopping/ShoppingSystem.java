@@ -13,6 +13,20 @@ public class ShoppingSystem {
     boolean isUserLoggedIn = false;
     Scanner scanner = new Scanner(System.in);
 
+    public ShoppingSystem(){
+        Supplier osem = new Supplier("Osem","Osem");
+        Supplier eastWest = new Supplier("EastWest","EastWest");
+        this.suppliers.add(osem);
+        this.suppliers.add(eastWest);
+        Product bamba = new Product(osem, "Bamba");
+        this.products.add(bamba);
+        this.products.add(new Product(eastWest, "Ramen"));
+        this.users.add(new User("Dani","Dani123", new Address("haifa"),"123","postBgu",0));
+        User dana =new User("Dana","Dana123", new Address("haifa"),"123","postBgu",1);
+        ((PremiumAccount)dana.getCustomer().getAccount()).addNewProduct(bamba,5,5);
+        this.users.add(dana);
+    }
+
     public void addUser(){
         String[] outputDetails = new String[]{"Insert userID",
                                         "Insert password",
@@ -29,7 +43,7 @@ public class ShoppingSystem {
         }
         Address address = new Address(inputDetails[2]);
         User user = new User(inputDetails[0],inputDetails[1],address,inputDetails[3],inputDetails[4],
-                inputDetails[5]=="Y"?1:0);
+                inputDetails[5].equals("Y")?1:0);
         users.add(user);
         System.out.println("User created successfully");
     }
@@ -39,14 +53,14 @@ public class ShoppingSystem {
         String input = scanner.nextLine();
         int index = -1 ;
         for (int i = 0; i < users.size(); i++) {
-            if (users.get(i).getLogin_id() == input) {
+            if (users.get(i).getLogin_id().equals(input)) {
                 index = i;
                 break;
             }
         }
         if (index != -1){
             User prevUser = users.remove(index);
-            if(this.activeUser.getLogin_id() == prevUser.getLogin_id()){
+            if((this.activeUser != null) && (this.activeUser.getLogin_id().equals(prevUser.getLogin_id()))){
                 this.activeUser = null;
                 this.isUserLoggedIn = false;
             }
@@ -68,7 +82,7 @@ public class ShoppingSystem {
             System.out.println("In order to login please insert Password");
             String inputPassword = scanner.nextLine();
             for (User user: users) {
-                if(user.getLogin_id() == inputLogin && user.getPassword() == inputPassword){
+                if(user.getLogin_id().equals(inputLogin) && user.getPassword().equals(inputPassword)){
                     user.state = UserState.Active;
                     isUserLoggedIn = true;
                     activeUser = user;
@@ -83,7 +97,7 @@ public class ShoppingSystem {
     public void Logout(){
         System.out.println("In order to logout please insert UserId");
         String inputLogin = scanner.nextLine();
-        if(activeUser.getLogin_id() == inputLogin){
+        if(this.isUserLoggedIn && activeUser.getLogin_id().equals(inputLogin)){
             //todo:activeUser.state = State
             activeUser = null;
             isUserLoggedIn = false;
@@ -104,25 +118,25 @@ public class ShoppingSystem {
         Account account = activeUser.getCustomer().getAccount();
         Order order = new Order(new Address(inputLogin), account);
         account.addOrder(order);
-        System.out.println(String.format("New order created successfully./nThe order number is: {0}",
-                                        order.getNumber().toString()));
+        System.out.println(String.format("New order created successfully.\nThe order number is: %s",
+                                        order.getNumber()));
     }
 
     public void addProductToOrder(){
         if(!this.isUserLoggedIn){
-            System.out.println("To create an order, login to your user");
+            System.out.println("To create a product, login to your user");
             return;
         }
         System.out.println("Please insert login id");
         String loginId = scanner.nextLine();
         PremiumAccount prem_acc = null;
         for (User user: users) {
-            if((user.getLogin_id() == loginId) && (user.getCustomer().getAccount() instanceof PremiumAccount)){
+            if((user.getLogin_id().equals(loginId)) && (user.getCustomer().getAccount() instanceof PremiumAccount)){
                 prem_acc = ((PremiumAccount)user.getCustomer().getAccount());
                 break;
             }
         }
-        if(prem_acc != null){
+        if(prem_acc == null){
             System.out.println("User id does not exist");
             return;
         }
@@ -130,29 +144,31 @@ public class ShoppingSystem {
         String orderId = scanner.nextLine();
         int flag = 0;
         for (Order order: this.activeUser.getCustomer().getAccount().getOrders()) {
-            if(order.getNumber() == orderId){
+            if(order.getNumber().equals(orderId)){
                 flag++;
+
                 break;
             }
         }
-        if(flag == 1){
+        if(flag == 0){
             System.out.println("Order id does not exist.\nFirst create new order");
             return;
         }
         System.out.println("Please insert product name");
         String productName = scanner.nextLine();
         Product product = prem_acc.containProducts(productName);
-        if(product != null){
+        if(product == null){
             System.out.println("The product does not exist");
             return;
         }
-        this.activeUser.getCustomer().getAccount().addProductToOrder(orderId, product);
+        float price = prem_acc.getProductPrice(product);
+        this.activeUser.getCustomer().getAccount().addProductToOrder(orderId, product, price);
         // todo: how determines the price?
     }
 
     public void displayOrder(){
         if(!this.isUserLoggedIn){
-            System.out.println("To create an order, login to your user");
+            System.out.println("To display the order, login to your user");
             return;
         }
         Order order = this.activeUser.getCustomer().getAccount().getLatlestOrder();
@@ -160,12 +176,12 @@ public class ShoppingSystem {
             System.out.println("No orders have been placed yet");
             return;
         }
-        String[] details = new String[]{String.format("order number: {0}", order.getNumber()),
-                                                        String.format("ordered: {0}",order.getOrdered()),
-                                                        String.format("shipping date: {0}", order.getShipped()),
-                                                        String.format("shipped to: {0}", order.getShip_to().address),
-                                                        String.format("status: {0}",order.getStatus()),
-                                                        String.format("total price: {0}", order.getTotal())};
+        String[] details = new String[]{String.format("order number: %s", order.getNumber()),
+                                                        String.format("ordered: %s",order.getOrdered()),
+                                                        String.format("shipping date: %s", order.getShipped()),
+                                                        String.format("shipped to: %s", order.getShip_to().address),
+                                                        String.format("status: %s",order.getStatus()),
+                                                        String.format("total price: %s", order.getTotal())};
         for (String str: details
              ) {
             System.out.println(str);
@@ -174,7 +190,7 @@ public class ShoppingSystem {
 
     public void linkProduct(){
         if(!(this.isUserLoggedIn) || !(this.activeUser.getCustomer().getAccount() instanceof PremiumAccount)){
-            System.out.println("To create an order, login to your user");
+            System.out.println("To create a link product, login to your user");
             return;
         }
         System.out.println("Please insert product name");
@@ -185,7 +201,7 @@ public class ShoppingSystem {
         String price = scanner.nextLine();
         for (Product p: this.products
              ) {
-            if(p.getName() == pName){
+            if(p.getName().equals(pName)){
                 if(p.getPremAcc() == null){
                     p.setPremAcc(((PremiumAccount) this.activeUser.getCustomer().getAccount()));
                     ((PremiumAccount) this.activeUser.getCustomer().getAccount()).addNewProduct(p,
@@ -204,13 +220,17 @@ public class ShoppingSystem {
     }
 
     public void addProduct(){
+        if(!this.isUserLoggedIn){
+            System.out.println("To add product, login to your user");
+            return;
+        }
         System.out.println("Please insert product name");
         String pName = scanner.nextLine();
         System.out.println("Please insert supplier name");
         String sName = scanner.nextLine();
         for (Supplier sup: this.suppliers
              ) {
-            if(sup.getName() == sName){
+            if(sup.getName().equals(sName)){
                 this.products.add(new Product(sup, pName));
                 System.out.println("Product was added");
                 break;
@@ -219,11 +239,15 @@ public class ShoppingSystem {
     }
 
     public void deleteProduct(){
+        if(!this.isUserLoggedIn){
+            System.out.println("To delete product, login to your user");
+            return;
+        }
         System.out.println("Please insert product name");
         String pName = scanner.nextLine();
         for (Product p: this.products
         ) {
-            if(p.getName() == pName){
+            if(p.getName().equals(pName)){
                 p.deleteProduct();
                 this.products.remove(p);
                 System.out.println("Product was deleted");

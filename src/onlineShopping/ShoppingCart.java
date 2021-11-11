@@ -32,7 +32,7 @@ public class ShoppingCart {
     }
 
     public void showShopCart() {
-        System.out.println(String.format("ShoppingCart of Account: {0}", this.account.getId()));
+        System.out.println(String.format("ShoppingCart of Account: %s", this.account.getId()));
     }
 
 }

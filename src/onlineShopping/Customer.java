@@ -78,21 +78,21 @@ public class Customer {
     }
 
     public void showCustomer() {
-        System.out.println(String.format("Customer id: {0}", this.id));
+        System.out.println(String.format("Customer id: %s", this.id));
         this.account.showAccount();
     }
 
     public void findObject(String id) {
-        if(this.id != id){
+        if(!this.id.equals(id)){
             this.account.findObject(id);
         }
         else{
-            System.out.println(String.format("Customer id: {0}", this.id));
-            System.out.println(String.format("Customer address: {0}", this.address.address));
-            System.out.println(String.format("Customer phone: {0}", this.phone));
-            System.out.println(String.format("Customer email: {0}", this.email));
-            System.out.println(String.format("Customer account id: {0}", this.account.getId()));
-            System.out.println(String.format("Customer user login id: {0}", this.user.getLogin_id()));
+            System.out.println(String.format("Customer id: %s", this.id));
+            System.out.println(String.format("Customer address: %s", this.address.address));
+            System.out.println(String.format("Customer phone: %s", this.phone));
+            System.out.println(String.format("Customer email: %s", this.email));
+            System.out.println(String.format("Customer account id: %s", this.account.getId()));
+            System.out.println(String.format("Customer user login id: %s", this.user.getLogin_id()));
         }
     }
 }

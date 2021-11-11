@@ -106,18 +106,21 @@ public class Account {
         return this.nextAvailableOrderId;
     }
 
-    public void addProductToOrder(String orderId, Product product) {
+    public void addProductToOrder(String orderId, Product product, float price) {
         for (Order order: this.orders
         ) {
-            if(order.getNumber() == orderId){
+            if(order.getNumber().equals(orderId)){
                 for (LineItem li: order.getLineItems()
                 ) {
-                    if(li.getProductName() == product.getName()){
+                    if(li.getProductName().equals(product.getName())){
                         li.setQuantity(li.getQuantity() + 1);
+                        li.setPrice(price);
                         return;
                     }
                 }
-                order.addLineItem(new LineItem(this.shopCart,order, product));
+                LineItem li = new LineItem(this.shopCart,order, product);
+                li.setPrice(price);
+                order.addLineItem(li);
             }
 
         }
@@ -144,7 +147,7 @@ public class Account {
     }
 
     public void showAccount() {
-        System.out.println(String.format("Account  id: {0}", this.id));
+        System.out.println(String.format("Account  id: %s", this.id));
         this.shopCart.showShopCart();
         for (Order o:this.orders
              ) {
@@ -153,21 +156,21 @@ public class Account {
     }
 
     public void findObject(String id) {
-        if(this.id != id){
+        if(!this.id.equals(id)){
             for (Order o: this.orders
                  ) {
                 o.findObject(id);
             }
         }
         else{
-            System.out.println(String.format("Account id: {0}", this.id));
-            System.out.println(String.format("Account billing address: {0}", this.billing_address));
-            System.out.println(String.format("Account isClosed: {0}", this.is_closed));
-            System.out.println(String.format("Account open date: {0}", this.open));
-            System.out.println(String.format("Account close date: {0}", this.close));
-            System.out.println(String.format("Account balance id: {0}", this.balance));
-            System.out.println(String.format("Account coustomer id: {0}", this.customer.getId()));
-            System.out.println(String.format("Account shopping cart open date: {0}", this.shopCart.created));
+            System.out.println(String.format("Account id: %s", this.id));
+            System.out.println(String.format("Account billing address: %s", this.billing_address));
+            System.out.println(String.format("Account isClosed: %s", this.is_closed));
+            System.out.println(String.format("Account open date: %s", this.open));
+            System.out.println(String.format("Account close date: %s", this.close));
+            System.out.println(String.format("Account balance id: %s", this.balance));
+            System.out.println(String.format("Account coustomer id: %s", this.customer.getId()));
+            System.out.println(String.format("Account shopping cart open date: %s", this.shopCart.created));
         }
     }
 }

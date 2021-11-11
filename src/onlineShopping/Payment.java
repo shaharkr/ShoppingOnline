@@ -17,7 +17,7 @@ public abstract class Payment {
     }
 
     public void showPayment(){
-        System.out.println(String.format("Payment id: {0}", this.getId()));
+        System.out.println(String.format("Payment id: %s", this.getId()));
     }
 
     public String getId() {
@@ -69,13 +69,13 @@ public abstract class Payment {
     }
 
     public void findObject(String id){
-        if(this.id == id){
-            System.out.println(String.format("Payment id: {0}", this.id));
-            System.out.println(String.format("Payment paid: {0}", this.paid));
-            System.out.println(String.format("Payment total: {0}", this.total));
-            System.out.println(String.format("Payment details: {0}", this.details));
-            System.out.println(String.format("Payment connect to account: {0}", this.account.getId()));
-            System.out.println(String.format("Payment order number: {0}", this.order.number));
+        if(this.id.equals(id)){
+            System.out.println(String.format("Payment id: %s", this.id));
+            System.out.println(String.format("Payment paid: %s", this.paid));
+            System.out.println(String.format("Payment total: %s", this.total));
+            System.out.println(String.format("Payment details: %s", this.details));
+            System.out.println(String.format("Payment connect to account: %s", this.account.getId()));
+            System.out.println(String.format("Payment order number: %s", this.order.number));
         }
     }
 }

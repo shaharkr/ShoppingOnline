@@ -28,7 +28,7 @@ public class Product {
     }
 
     public void setPremAcc(PremiumAccount premAcc) {
-        if(this.premAcc != null){
+        if(this.premAcc == null){
             this.premAcc = premAcc;
         }
     }
@@ -64,19 +64,19 @@ public class Product {
     }
 
     public void showProduct(){
-        System.out.println(String.format("Product id: {0}", this.getId()));
+        System.out.println(String.format("Product id: %s", this.getId()));
     }
 
     public void findObject(String id) {
-        if(this.id == id){
-            System.out.println(String.format("Product id: {0}", this.id));
-            System.out.println(String.format("Product name: {0}", this.name));
-            System.out.println(String.format("Product supplier id: {0}", this.supplier.getId()));
-            System.out.println(String.format("Premium Account id: {0}", this.premAcc.getId()));
-            System.out.println("All lineItems that are connected to this product:");
+        if(this.id.equals(id)){
+            System.out.println(String.format("Product id: %s", this.id));
+            System.out.println(String.format("Product name: %s", this.name));
+            System.out.println(String.format("Product supplier id: %s", this.supplier.getId()));
+            if(this.premAcc!=null){System.out.println(String.format("Premium Account id: %s", this.premAcc.getId()));}
+            if(this.lineItems.size()>0){System.out.println("All lineItems that are connected to this product:");}
             for (LineItem li: this.lineItems
             ) {
-                System.out.println(String.format("LineItem id: {0}", li.getPrice()));
+                System.out.println(String.format("LineItem id: %s", li.getPrice()));
             }
         }
     }
