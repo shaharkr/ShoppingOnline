@@ -35,4 +35,21 @@ public class Supplier {
             }
         }
     }
+
+    public void showSupplier(){
+        System.out.println(String.format("Suppplier id: {0}", this.getId()));
+    }
+
+    public void findObject(String id) {
+        if (this.id == id) {
+            System.out.println(String.format("Supplier id: {0}", this.id));
+            System.out.println(String.format("Supplier name: {0}", this.name));
+            System.out.println("All products that are connected to this supplier:");
+            for (Product p : this.products
+                 ) {
+                System.out.println(String.format("Product id: {0}", p.getId()));
+            }
+        }
+    }
+
 }

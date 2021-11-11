@@ -118,4 +118,44 @@ public class Order {
         }
         this.account = null;
     }
+
+    public void showOrder() {
+        System.out.println(String.format("Order id: {0}", this.getNumber()));
+        for (LineItem li: this.lineItems
+             ) {
+            li.showLineItem();
+        }
+        for (Payment p: this.payments
+        ) {
+            p.showPayment();
+        }
+    }
+
+    public void findObject(String id) {
+        if(this.number != id){
+            for (Payment p: this.payments
+            ) {
+                p.findObject(id);
+            }
+        }
+        else{
+            System.out.println(String.format("Order number: {0}", this.number));
+            System.out.println(String.format("Order address: {0}", this.ship_to.address));
+            System.out.println(String.format("Order status: {0}", this.status));
+            System.out.println(String.format("Order ordered date: {0}", this.ordered));
+            System.out.println(String.format("Order shipped date: {0}", this.shipped));
+            System.out.println(String.format("Order total: {0}", this.total));
+            System.out.println(String.format("Order account id: {0}", this.account.getId()));
+            System.out.println("All payments that are connected to this order:");
+            for (Payment p: this.payments
+            ) {
+                System.out.println(String.format("Payment id: {0}", p.getId()));
+            }
+            System.out.println("All lineItems that are connected to this order:");
+            for (LineItem li: this.lineItems
+            ) {
+                System.out.println(String.format("LineItem id: {0}", li.getPrice()));
+            }
+        }
+    }
 }

@@ -30,4 +30,9 @@ public class ShoppingCart {
         this.account = null;
         this.lineItems = null;
     }
+
+    public void showShopCart() {
+        System.out.println(String.format("ShoppingCart of Account: {0}", this.account.getId()));
+    }
+
 }

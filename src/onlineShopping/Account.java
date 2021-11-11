@@ -131,7 +131,7 @@ public class Account {
     public void deleteAccount() {
         for (Payment p: this.payments
              ) {
-            p.deletePamentFromAccount();
+            p.deletePaymentFromAccount();
         }
         for (Order o: this.orders
         ) {
@@ -141,5 +141,33 @@ public class Account {
         this.shopCart = null;
         this.payments = null;
         this.orders = null;
+    }
+
+    public void showAccount() {
+        System.out.println(String.format("Account  id: {0}", this.id));
+        this.shopCart.showShopCart();
+        for (Order o:this.orders
+             ) {
+            o.showOrder();
+        }
+    }
+
+    public void findObject(String id) {
+        if(this.id != id){
+            for (Order o: this.orders
+                 ) {
+                o.findObject(id);
+            }
+        }
+        else{
+            System.out.println(String.format("Account id: {0}", this.id));
+            System.out.println(String.format("Account billing address: {0}", this.billing_address));
+            System.out.println(String.format("Account isClosed: {0}", this.is_closed));
+            System.out.println(String.format("Account open date: {0}", this.open));
+            System.out.println(String.format("Account close date: {0}", this.close));
+            System.out.println(String.format("Account balance id: {0}", this.balance));
+            System.out.println(String.format("Account coustomer id: {0}", this.customer.getId()));
+            System.out.println(String.format("Account shopping cart open date: {0}", this.shopCart.created));
+        }
     }
 }

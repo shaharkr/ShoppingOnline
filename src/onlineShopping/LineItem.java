@@ -71,4 +71,8 @@ public class LineItem {
         this.product = null;
         this.shop_cart = null;
     }
+
+    public void showLineItem() {
+        System.out.println(String.format("LineItem of Order: {0}", this.order.getNumber()));
+    }
 }

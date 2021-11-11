@@ -232,5 +232,35 @@ public class ShoppingSystem {
         }
     }
 
+    public void ShowAllObjects(){
+        for (User u: this.users
+             ) {
+            u.showUser();
+        }
+        for (Product p: this.products
+        ) {
+            p.showProduct();
+        }
+        for (Supplier s: this.suppliers
+        ) {
+            s.showSupplier();
+        }
+    }
 
+    public void ShowObjectId(){
+        System.out.println("Please insert object id");
+        String id = scanner.nextLine();
+        for (User u: this.users
+             ) {
+            u.findObject(id);
+        }
+        for (Product p: this.products
+        ) {
+            p.findObject(id);
+        }
+        for (Supplier s: this.suppliers
+        ) {
+            s.findObject(id);
+        }
+    }
 }

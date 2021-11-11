@@ -63,4 +63,22 @@ public class User {
         this.customer.deleteCustomer();
         this.customer = null;
     }
+
+    public void showUser(){
+        System.out.println(String.format("User login id: {0}", this.login_id));
+        this.customer.showCustomer();
+    }
+
+    public void findObject(String id){
+        if(this.login_id != id){
+            this.customer.findObject(id);
+        }
+        else{
+            System.out.println(String.format("User login id: {0}", this.login_id));
+            System.out.println(String.format("User password: {0}", this.password));
+            System.out.println(String.format("User state: {0}", this.state));
+            System.out.println(String.format("User shoppingCart creation date: {0}", this.shop_cart.created));
+            System.out.println(String.format("User customer id: {0}", this.customer.getId()));
+        }
+    }
 }
